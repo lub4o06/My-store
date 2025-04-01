@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - My Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: #1a73e8;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: opacity 0.3s;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .product-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .product-info h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            color: #1a73e8;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .stock {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .best-seller-badge {
+            background-color: #ff4444;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .specifications {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .spec-item h4 {
+            color: #1a73e8;
+            margin-bottom: 0.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .features-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            color: #1a73e8;
+            position: absolute;
+            left: 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            background: #f0f2f5;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .comments-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form {
+            margin: 1rem 0 2rem 0;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .comment-form button {
+            padding: 0.5rem 1rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #1557b0;
+        }
+
+        .comment {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/dashboard" class="logo">My Store</a>
+            <div class="nav-links">
+                <a href="/dashboard">Home</a>
+                <a href="/products">Products</a>
+                <a href="/about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <a href="/products" class="back-button">← Back to Products</a>
+        <div class="product-details">
+            <div class="product-image-container">
+                <img id="product-image" src="" alt="" class="product-image">
+            </div>
+            <div class="product-info">
+                <div id="best-seller-container"></div>
+                <h1 id="product-name"></h1>
+                <div id="product-price" class="price"></div>
+                <div id="product-stock" class="stock"></div>
+                <p id="product-description" class="description"></p>
+            </div>
+        </div>
+
+        <div class="specifications">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('specs')">Specifications</button>
+                <button class="tab" onclick="showTab('features')">Features</button>
+                <button class="tab" onclick="showTab('compatibility')">Compatibility</button>
+            </div>
+
+            <div id="specs-content" class="specs-grid">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+
+        <div class="comments-section">
+            <h3>Comments</h3>
+            
+            <!-- Comment Form -->
+            <form id="comment-form" class="comment-form">
+                <textarea 
+                    id="comment-text" 
+                    placeholder="Write your comment here..." 
+                    required
+                ></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+
+            <!-- Comments List -->
+            <div id="comments-list">
+                <!-- Comments will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadComments() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const productType = urlParams.get('type');
+
+            try {
+                const response = await fetch(`/api/comments/${productType}/${productId}`);
+                const comments = await response.json();
+                
+                const commentsList = document.getElementById('comments-list');
+                commentsList.innerHTML = comments.map(comment => `
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">${comment.username}</span>
+                            <span class="comment-date">${new Date(comment.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="comment-text">${comment.comment}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        // Add event listener for comment form
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const productType = urlParams.get('type');
+            const commentText = document.getElementById('comment-text').value;
+            console.log(commentText, productId, productType );
+            try {
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        productType,
+                        comment: commentText
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('comment-text').value = '';
+                    await loadComments(); // Reload comments
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Error posting comment');
+                }
+            } catch (error) {
+                console.error('Error posting comment:', error);
+                alert('Error posting comment');
+            }
+        });
+
+        // Update window.onload to include loading comments
+        window.onload = async function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const productType = urlParams.get('type');
+            window.currentProductType = productType;
+
+            if (!productId || !productType) {
+                window.location.href = '/products';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/product/${productType}/${productId}`);
+                const product = await response.json();
+
+                document.title = `${product.name} - My Store`;
+                document.getElementById('product-name').textContent = product.name;
+                document.getElementById('product-price').textContent = `$${product.price}`;
+                document.getElementById('product-stock').textContent = `In Stock: ${product.stock}`;
+                document.getElementById('product-description').textContent = product.description;
+                document.getElementById('product-image').src = product.image_url || '/images/placeholder.png';
+                document.getElementById('product-image').alt = product.name;
+
+                if (product.best_seller) {
+                    document.getElementById('best-seller-container').innerHTML = 
+                        '<span class="best-seller-badge">Best Seller</span>';
+                }
+
+                // Initialize specifications tab
+                document.getElementById('specs-content').innerHTML = getTabContent('specs', productType);
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+            }
+
+            await loadComments();
+        }
+
+        function showTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show content based on tab
+            const specsContent = document.getElementById('specs-content');
+            specsContent.innerHTML = getTabContent(tabName, window.currentProductType);
+        }
+
+        function getTabContent(tab, productType) {
+            const specs = {
+                cpu: {
+                    specs: `
+                        <div class="spec-item">
+                            <h4>Architecture</h4>
+                            <p>Latest generation architecture</p>
+                            <p>Advanced 7nm process</p>
+                            <p>Enhanced power efficiency</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Performance</h4>
+                            <p>Multiple cores and threads</p>
+                            <p>High base and boost clocks</p>
+                            <p>Large cache sizes</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Technologies</h4>
+                            <p>Advanced instruction sets</p>
+                            <p>Integrated graphics options</p>
+                            <p>Hardware security features</p>
+                        </div>
+                    `,
+                    features: `
+                        <div class="spec-item">
+                            <h4>Key Features</h4>
+                            <ul class="features-list">
+                                <li>Precision Boost Technology</li>
+                                <li>Smart Cache System</li>
+                                <li>Advanced Overclocking Support</li>
+                                <li>Thermal Management Solutions</li>
+                                <li>Energy Efficient Design</li>
+                            </ul>
+                        </div>
+                    `,
+                    compatibility: `
+                        <div class="spec-item">
+                            <h4>Compatible With</h4>
+                            <ul class="features-list">
+                                <li>Latest AMD/Intel Motherboards</li>
+                                <li>DDR4/DDR5 Memory</li>
+                                <li>PCIe 4.0/5.0 Support</li>
+                                <li>Standard CPU Coolers</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                gpu: {
+                    specs: `
+                        <div class="spec-item">
+                            <h4>Graphics Engine</h4>
+                            <p>Next-gen GPU architecture</p>
+                            <p>Advanced ray tracing cores</p>
+                            <p>AI acceleration units</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Memory System</h4>
+                            <p>High-bandwidth GDDR6X memory</p>
+                            <p>Large frame buffer</p>
+                            <p>Advanced memory controller</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Display Support</h4>
+                            <p>Multiple 4K display outputs</p>
+                            <p>High refresh rate support up to 360Hz</p>
+                            <p>HDR and 10-bit color support</p>
+                        </div>
+                    `,
+                    features: `
+                        <div class="spec-item">
+                            <h4>Key Features</h4>
+                            <ul class="features-list">
+                                <li>DLSS 3.0 Technology</li>
+                                <li>Real-time Ray Tracing</li>
+                                <li>NVIDIA Reflex Low Latency</li>
+                                <li>NVIDIA Broadcast Features</li>
+                                <li>G-SYNC Compatible</li>
+                                <li>Advanced Cooling System</li>
+                            </ul>
+                        </div>
+                    `,
+                    compatibility: `
+                        <div class="spec-item">
+                            <h4>Compatible With</h4>
+                            <ul class="features-list">
+                                <li>PCIe 4.0 x16 Interface</li>
+                                <li>Windows 10/11 64-bit</li>
+                                <li>DirectX 12 Ultimate</li>
+                                <li>Minimum 750W PSU</li>
+                                <li>8K/4K Display Support</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                ram: {
+                    specs: `
+                        <div class="spec-item">
+                            <h4>Memory Specifications</h4>
+                            <p>DDR4/DDR5 Technology</p>
+                            <p>High-frequency operation</p>
+                            <p>Low latency timings</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Performance</h4>
+                            <p>XMP 3.0 Profile Support</p>
+                            <p>Optimized power management</p>
+                            <p>Temperature monitoring</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Design</h4>
+                            <p>Aluminum heat spreader</p>
+                            <p>Custom PCB design</p>
+                            <p>RGB lighting options</p>
+                        </div>
+                    `,
+                    features: `
+                        <div class="spec-item">
+                            <h4>Key Features</h4>
+                            <ul class="features-list">
+                                <li>Intel XMP Support</li>
+                                <li>Custom RGB Lighting</li>
+                                <li>Advanced Thermal Design</li>
+                                <li>Precision Manufacturing</li>
+                                <li>Lifetime Warranty</li>
+                                <li>Overclock Ready</li>
+                            </ul>
+                        </div>
+                    `,
+                    compatibility: `
+                        <div class="spec-item">
+                            <h4>Compatible With</h4>
+                            <ul class="features-list">
+                                <li>Intel & AMD Platforms</li>
+                                <li>Latest Motherboards</li>
+                                <li>RGB Sync Software</li>
+                                <li>Windows 10/11</li>
+                                <li>XMP Capable Systems</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                motherboard: {
+                    specs: `
+                        <div class="spec-item">
+                            <h4>Board Features</h4>
+                            <p>Advanced Power Design</p>
+                            <p>Premium Audio Solution</p>
+                            <p>High-Speed Networking</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Connectivity</h4>
+                            <p>Multiple M.2 Slots</p>
+                            <p>USB 3.2 Gen 2x2</p>
+                            <p>WiFi 6E Support</p>
+                        </div>
+                        <div class="spec-item">
+                            <h4>Storage & Expansion</h4>
+                            <p>PCIe 5.0 Support</p>
+                            <p>SATA 6Gb/s Ports</p>
+                            <p>Multiple PCIe Slots</p>
+                        </div>
+                    `,
+                    features: `
+                        <div class="spec-item">
+                            <h4>Key Features</h4>
+                            <ul class="features-list">
+                                <li>AI Overclocking</li>
+                                <li>RGB Fusion Support</li>
+                                <li>Advanced Thermal Design</li>
+                                <li>2.5GbE LAN</li>
+                                <li>Thunderbolt 4 Support</li>
+                                <li>BIOS Flashback</li>
+                            </ul>
+                        </div>
+                    `,
+                    compatibility: `
+                        <div class="spec-item">
+                            <h4>Compatible With</h4>
+                            <ul class="features-list">
+                                <li>Latest Intel/AMD CPUs</li>
+                                <li>DDR4/DDR5 Memory</li>
+                                <li>PCIe 4.0/5.0 Devices</li>
+                                <li>ATX Cases</li>
+                                <li>RGB Ecosystems</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            };
+
+            return specs[productType]?.[tab] || '<div class="spec-item"><p>Information not available</p></div>';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Parts Store - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .nav-container {
+            background: linear-gradient(to right, #1a73e8, #0d47a1);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            color: #1a73e8;
+            margin-bottom: 1rem;
+        }
+
+        .featured-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a73e8;
+        }
+
+        .category-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .best-sellers {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .best-sellers h2 {
+            color: #1a73e8;
+            margin-bottom: 1.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: #1a73e8;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #1a73e8;
+            color: white;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .featured-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="/dashboard" class="logo">PC Parts Store</a>
+            <div class="nav-links">
+                <a href="/dashboard">Home</a>
+                <a href="/products">Products</a>
+                <a href="/about">About</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="welcome-section">
+            <h1>Welcome to PC Parts Store</h1>
+            <p>Discover high-quality computer components for your next build.</p>
+        </section>
+
+        <section class="featured-categories">
+            <div class="category-card" onclick="location.href='/products?category=cpu'">
+                <div class="category-icon">💻</div>
+                <h3>CPUs</h3>
+                <p>High-performance processors from top brands</p>
+            </div>
+            <div class="category-card" onclick="location.href='/products?category=gpu'">
+                <div class="category-icon">🎮</div>
+                <h3>GPUs</h3>
+                <p>Latest graphics cards for gaming and design</p>
+            </div>
+            <div class="category-card" onclick="location.href='/products?category=ram'">
+                <div class="category-icon">🔧</div>
+                <h3>RAM</h3>
+                <p>Memory modules for optimal performance</p>
+            </div>
+            <div class="category-card" onclick="location.href='/products?category=motherboard'">
+                <div class="category-icon">🔌</div>
+                <h3>Motherboards</h3>
+                <p>Quality motherboards for your build</p>
+            </div>
+        </section>
+
+        <section class="best-sellers">
+            <h2>Best Sellers</h2>
+            <div class="products-grid" id="best-sellers-grid">
+                <!-- Best sellers will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 PC Parts Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check authentication on page load
+        window.onload = async function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            // Load best sellers
+            try {
+                const response = await fetch('/api/products/best-sellers');
+                const products = await response.json();
+                
+                const bestSellersGrid = document.getElementById('best-sellers-grid');
+                bestSellersGrid.innerHTML = products.map(product => `
+                    <div class="product-card" onclick="location.href='/product-details?id=${product.id}&type=${product.type}'">
+                        <img 
+                            src="${product.image_url || '/images/placeholder.png'}" 
+                            alt="${product.name}"
+                            class="product-image"
+                            onerror="this.src='/images/placeholder.png'"
+                        >
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading best sellers:', error);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html> 
