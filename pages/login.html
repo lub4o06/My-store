@@ -138,6 +138,21 @@
     </div>
 
     <script>
+        const loginSection = document.getElementById('login-section');
+        const registerSection = document.getElementById('register-section');
+        
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'block';
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            registerSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -164,6 +179,39 @@
                 console.error('Login error:', error);
                 document.getElementById('error-message').textContent = 'Invalid credentials';
                 document.getElementById('error-message').style.display = 'block';
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Registration failed');
+                }
+
+                const data = await response.json();
+                alert('Registration successful! Please login.');
+                
+                // Switch to login form
+                registerSection.style.display = 'none';
+                loginSection.style.display = 'block';
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert(error.message || 'Registration failed. Please try again.');
             }
         });
     </script>
