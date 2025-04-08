@@ -309,13 +309,11 @@ app.post('/api/comments', async (req, res) => {
             return res.status(401).json({ message: 'Invalid token' });
         }
 
-        // Change this line - use userId instead of id
-        const userId = decoded.userId; // Changed from decoded.id to decoded.userId
-
+        const userId = decoded.userId;
         const { productId, productType, comment } = req.body;
 
         // Log the values for debugging
-        console.log('Values:', { userId, productId, productType, comment });
+        console.log('Comment values:', { userId, productId, productType, comment });
 
         if (!userId || !productId || !productType || !comment) {
             return res.status(400).json({ 
@@ -374,6 +372,78 @@ app.post('/api/comments', async (req, res) => {
             error: error.message
         });
     }
+});
+
+// Check if user is admin endpoint
+app.get('/api/user/is-admin', async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ isAdmin: false, message: 'No token provided' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+
+        const [users] = await db.promise().query(
+            'SELECT is_admin FROM users WHERE id = ?',
+            [userId]
+        );
+
+        if (users.length === 0) {
+            return res.status(404).json({ isAdmin: false, message: 'User not found' });
+        }
+
+        return res.json({ isAdmin: !!users[0].is_admin });
+    } catch (error) {
+        console.error('Error checking admin status:', error);
+        return res.status(500).json({ isAdmin: false, message: 'Error checking admin status' });
+    }
+});
+
+// Delete comment endpoint
+app.delete('/api/comments/:commentId', async (req, res) => {
+    try {
+        const { commentId } = req.params;
+        const token = req.headers.authorization?.split(' ')[1];
+        
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+
+        // Check if user is admin
+        const [users] = await db.promise().query(
+            'SELECT is_admin FROM users WHERE id = ?',
+            [userId]
+        );
+
+        if (users.length === 0 || !users[0].is_admin) {
+            return res.status(403).json({ message: 'Not authorized to delete comments' });
+        }
+
+        // Delete the comment
+        const [result] = await db.promise().query(
+            'DELETE FROM comments WHERE id = ?',
+            [commentId]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        return res.json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        return res.status(500).json({ message: 'Error deleting comment' });
+    }
+});
+
+// Add this route after your other page routes
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'about.html'));
 });
 
 // Стартиране на сървъра
